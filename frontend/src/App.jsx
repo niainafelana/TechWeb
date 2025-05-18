@@ -7,8 +7,8 @@ import "./App.css"
 function App() {
   return (
     <>
-      <Header />
       <BrowserRouter>
+      <Header />
         <Routes>
           {routes.map(({ path, element }, index) => (
             <Route key={index} path={path} element={element} />
