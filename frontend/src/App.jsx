@@ -7,7 +7,7 @@ function App() {
     <>  
 
       <Header></Header>
-      <Home></Home>
+      </Home>
       <Footer></Footer>
       </>
 
