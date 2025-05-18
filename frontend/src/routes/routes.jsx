@@ -10,7 +10,7 @@ const routes = [
     name: "Accueil",
   },
   {
-    path: "/product",
+    path: "/product/:id",
     element: <ProductPage />,
     name: "Produits",
   },
