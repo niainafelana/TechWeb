@@ -1,115 +1,118 @@
 import nikesbvert from "../assets/image/nike.png";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import rectangle1 from "../assets/image/Rectangle1.png";
+import { useRef } from "react";
+import ProductCard from "../components/ProductCard";
 
 export default function MainContent() {
+  const scrollRef = useRef(null);
+
+  const scroll = (offset) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
+
+  const products = [
+    {
+      image: rectangle1,
+      brand: "Off-White",
+      description: 'Out Of Office "Ooo" sneakers',
+      price: "$775",
+    },
+    {
+      image: rectangle1,
+      brand: "Nike",
+      description: "Air Force 1 Low",
+      price: "$120",
+    },
+    {
+      image: rectangle1,
+      brand: "Adidas",
+      description: "Yeezy Boost 350",
+      price: "$220",
+    },
+    {
+      image: rectangle1,
+      brand: "Puma",
+      description: "RS-X3 Puzzle",
+      price: "$95",
+    },
+  ];
+
   return (
-    <main className="flex-1">
-      <div className="container pb-8 space-y-4">
+    <main className="flex-1 flex items-center justify-center px-4 md:px-10">
+      <div className="container pb-8 space-y-8 w-full">
+
         {/* Hero Section */}
-        <div
-          className="w-full max-w-[1116px] h-auto md:h-[427px] ml-auto mr-38 mt-4 rounded-[40px] bg-gray-100 p-6
-  md:p-8 flex flex-col md:flex-row justify-between items-center md:gap-8 gap-8"
-        >
-          <div className="space-y-2 text-center md:text-left ml-6 md:ml-6">
-            <p className="text-orange-500 font-bold text-[48px] leading-[50px] tracking-[-1px] md:text-[36px] md:leading-[44px]">
+        <div className="max-w-[1400px] mx-auto mt-4 rounded-[40px] bg-gray-100 p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 min-h-[400px] md:min-h-[520px]">
+          <div className="w-full flex justify-center md:order-2">
+            <div className="relative w-[250px] h-[180px] sm:w-[300px] sm:h-[220px] md:w-[400px] md:h-[300px]">
+              <img
+                src={nikesbvert}
+                alt="Green and white sneaker"
+                className="object-contain w-full h-full"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-4 text-center md:text-left md:order-1">
+            <p className="text-orange-500 font-bold text-[36px] md:text-[60px] leading-tight">
               25% OFF
             </p>
-            <p className="text-black font-bold text-[64px] leading-[68px] tracking-[-1px] md:text-[48px] md:leading-[56px] sm:text-[36px] sm:leading-[44px]">
+            <p className="text-black font-bold text-[40px] md:text-[64px] leading-tight">
               Summer Sale
             </p>
-            <p className="text-gray-600 font-normal text-[20px] leading-[30px] md:text-[18px] md:leading-[28px] sm:text-[16px] sm:leading-[24px]">
+            <p className="text-gray-600 text-[16px] md:text-[20px] leading-snug">
               Discover our summer styles with discount
             </p>
-            <button
-              className="bg-black mt-10 text-white hover:bg-black/90 rounded-[10px]
-             w-[283px] h-[64px] font-bold flex items-center justify-center gap-[10px] px-[80px] py-[20px]"
-            >
+            <button className="bg-black mt-6 text-white hover:bg-black/90 rounded-[10px] w-[220px] h-[50px] font-bold flex items-center justify-center gap-2 mx-auto md:mx-0">
               Shop Now
-              <ArrowRight size={24} />
+              <ArrowRight size={20} />
             </button>
-          </div>
-          <div className="relative w-[300px] h-[200px] md:w-[400px] md:h-[300px] md:absolute md:top-[100px] md:left-[870px]">
-            <img
-              src={nikesbvert}
-              alt="Green and white sneaker"
-              className="object-contain w-full h-full"
-            />
           </div>
         </div>
 
-        <div className="mx-auto my-4 w-[1116px]">
-          <h2 className="w-[368px] h-[48px] ml-4 text-xl font-bold mb-4 ml-16">
+        {/* Products Section */}
+        <div className="w-full max-w-[1400px] mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center md:text-left">
             Explore our latest drops
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-max ml-20 -mt-8">
-            <div className="bg-transparent rounded-lg p-4 w-[261px] h-[390px] relative flex flex-col gap-[18px]">
-              <div className="w-[261] h-[284px] relative bg-gray-50 rounded-[18px] p-2">
-                <img
-                  src={rectangle1}
-                  alt="Off-White sneakers"
-                  className="object-contain w-full h-full"
+          </h1>
+
+          {/* Carousel mobile */}
+          <div className="relative block md:hidden">
+            <div className="flex overflow-hidden gap-4" ref={scrollRef}>
+              {products.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  {...product}
+                  className="min-w-[240px] flex-shrink-0"
                 />
-              </div>
-              <div>
-                <p className="font-medium">Off-White</p>
-                <p className="text-sm text-gray-600">
-                  Out Of Office "Ooo" sneakers
-                </p>
-                <p className="font-medium mt-1">$775</p>
-              </div>
+              ))}
             </div>
 
-            {/* Product 2 */}
-            <div className="bg-transparent rounded-lg p-4 w-[261px] h-[390px] relative flex flex-col gap-[18px]">
-              <div className="w-[261] h-[284px] relative bg-gray-50 rounded-lg p-2">
-                <img
-                  src={rectangle1}
-                  alt="Off-White sneakers"
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div>
-                <p className="font-medium">Off-White</p>
-                <p className="text-sm text-gray-600">
-                  Out Of Office "Ooo" sneakers
-                </p>
-                <p className="font-medium mt-1">$775</p>
-              </div>
+            {/* Carousel buttons */}
+            <div className="flex justify-between mt-4 px-4">
+              <button
+                onClick={() => scroll(-300)}
+                className="bg-white p-2 rounded-full shadow-md"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => scroll(300)}
+                className="bg-white p-2 rounded-full shadow-md"
+              >
+                <ChevronRight size={24} />
+              </button>
             </div>
-            <div className="bg-transparent rounded-lg p-4 w-[261px] h-[390px] relative flex flex-col gap-[18px]">
-              <div className="w-[261] h-[284px] relative bg-gray-50 rounded-lg p-2">
-                <img
-                  src={rectangle1}
-                  alt="Off-White sneakers"
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div>
-                <p className="font-medium">Off-White</p>
-                <p className="text-sm text-gray-600">
-                  Out Of Office "Ooo" sneakers
-                </p>
-                <p className="font-medium mt-1">$775</p>
-              </div>
-            </div>
-            {/* Product 4 */}
-            <div className="bg-transparent rounded-lg p-4 w-[261px] h-[390px] relative flex flex-col gap-[18px]">
-              <div className="w-[261] h-[284px] relative bg-gray-50 rounded-lg p-2">
-                <img
-                  src={rectangle1}
-                  alt="Off-White sneakers"
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div>
-                <p className="font-medium">Off-White</p>
-                <p className="text-sm text-gray-600">
-                  Out Of Office "Ooo" sneakers
-                </p>
-                <p className="font-medium mt-1">$775</p>
-              </div>
-            </div>
+          </div>
+
+          {/* Grid desktop */}
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {products.map((product, index) => (
+              <ProductCard key={index} {...product} className="h-[350px]" />
+            ))}
           </div>
         </div>
       </div>
