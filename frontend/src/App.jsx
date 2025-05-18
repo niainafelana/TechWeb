@@ -1,14 +1,22 @@
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./pages/Home";
+import routes from "./routes/routes";
+import "./App.css"
+
 function App() {
   return (
-    <>  
-      <Header/>
-      <Home/>
-      <Footer/>
-      </>
+    <>
+      <Header />
+      <BrowserRouter>
+        <Routes>
+          {routes.map(({ path, element }, index) => (
+            <Route key={index} path={path} element={element} />
+          ))}
+        </Routes>
+      </BrowserRouter>
+      <Footer />
+    </>
   );
 }
 
