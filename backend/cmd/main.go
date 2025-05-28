@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -12,14 +11,17 @@ import (
 func main() {
     app := fiber.New()
 
-    // Connexion DB
+    // Serveur de fichiers statiques pour les images
+    app.Static("/images", "./public/images")
+
+    // Connexion à la base de données
     db, err := database.ConnectDB()
     if err != nil {
         log.Fatal(err)
     }
     defer database.CloseDB(db)
 
-    // Setup routes
+    // Setup des routes API
     routes.Setup(app, db)
 
     log.Fatal(app.Listen(":8080"))
