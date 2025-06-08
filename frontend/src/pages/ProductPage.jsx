@@ -1,40 +1,21 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-// eslint-disable-next-line no-unused-vars
-import { motion ,  useInView } from "framer-motion";
+import { useSelector } from "react-redux";
+import { motion, useInView } from "framer-motion";
+import { addToCart } from '../store/cartSlice';
+import { useDispatch } from "react-redux";
 
-import img1 from "../assets/image/nike.png";
-import img2 from "../assets/image/adidas.png";
-import img3 from "../assets/image/nike1.png";
-
-const dummyProducts = [
-  {
-    id: "1",
-    marque: "Nike",
-    name: "Nike Air Max 270",
-    price: 150,
-    images: [img1, img3, img2],
-    details:
-      "Chaussure confortable avec un excellent amorti, parfaite pour le sport et le quotidien.",
-  },
-  {
-    id: "2",
-    marque: "Adidas",
-    name: "Adidas Ultraboost",
-    price: 180,
-    images: [img2, img1, img3],
-    details:
-      "Chaussure de running haut de gamme avec un excellent retour d'énergie.",
-  },
-];
 
 function ProductPage() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const product = dummyProducts.find((p) => p.id === id);
   const [currentImage, setCurrentImage] = useState(0);
+  
+  // Get product from Redux store
+  const product = useSelector((state) => 
+    state.products.items.find(item => item.ID.toString() === id)
+  );
 
   if (!product) return <div className="p-6">Produit introuvable</div>;
 
@@ -44,24 +25,26 @@ function ProductPage() {
     );
   };
 
+  const dispatch = useDispatch();
+
+
   const handleNext = () => {
     setCurrentImage((prev) =>
       prev === product.images.length - 1 ? 0 : prev + 1
     );
   };
 
-  // refs pour inView
+  // Refs for animations
   const refTopLeft = useRef(null);
   const refTopRight = useRef(null);
   const refBottom = useRef(null);
 
-  // détection visibilité
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // Visibility detection
   const isInViewTopLeft = useInView(refTopLeft, { once: true, margin: "-100px" });
   const isInViewTopRight = useInView(refTopRight, { once: true, margin: "-100px" });
   const isInViewBottom = useInView(refBottom, { once: true, margin: "-100px" });
 
-  // variants animation
+  // Animation variants
   const variantsTopLeft = {
     hidden: { opacity: 0, x: -100 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
@@ -79,9 +62,9 @@ function ProductPage() {
 
   return (
     <div className="m-5 lg:w-3/4 lg:mx-auto py-8 space-y-16">
-      {/* --- Section principale --- */}
+      {/* --- Main Section --- */}
       <div className="flex flex-col lg:flex-row gap-10">
-        {/* Partie gauche : image + navigation */}
+        {/* Left side: image + navigation */}
         <motion.div
           ref={refTopLeft}
           className="lg:w-1/2 flex flex-col items-center"
@@ -91,7 +74,7 @@ function ProductPage() {
         >
           <div className="w-full bg-gray-100 rounded-xl overflow-hidden shadow-md mb-4">
             <img
-              src={product.images[currentImage]}
+              src={product.images[currentImage]?.url}
               alt={product.name}
               className="w-full h-[400px] object-contain p-4"
             />
@@ -110,7 +93,7 @@ function ProductPage() {
             ))}
           </div>
 
-          {/* Flèches */}
+          {/* Arrows */}
           <div className="flex justify-between w-full px-8">
             <button
               onClick={handlePrev}
@@ -127,7 +110,7 @@ function ProductPage() {
           </div>
         </motion.div>
 
-        {/* Partie droite : détails produit */}
+        {/* Right side: product details */}
         <motion.div
           ref={refTopRight}
           className="lg:w-1/2 flex flex-col justify-between gap-6 shadow-2xl p-4 lg:p-10 rounded-2xl"
@@ -146,7 +129,7 @@ function ProductPage() {
             <hr className="opacity-8" />
           </div>
 
-          {/* Contrôle quantité */}
+          {/* Quantity control */}
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -163,14 +146,22 @@ function ProductPage() {
             </button>
           </div>
 
-          {/* Bouton */}
-          <button className="bg-black text-white text-center py-3 rounded-lg hover:bg-gray-800 transition w-3/4 mx-auto">
+          {/* Button */}
+          <button 
+          onClick={() => dispatch(addToCart({
+    id: product.ID,
+    name: product.name,
+    price: product.price,
+    image: product.images[0]?.url,
+    quantity: quantity
+  }))} 
+          className="bg-black text-white text-center py-3 rounded-lg hover:bg-gray-800 transition w-3/4 mx-auto">
             Ajouter au panier
           </button>
         </motion.div>
       </div>
 
-      {/* --- Nouvelle section en bas --- */}
+      {/* --- Bottom section --- */}
       <motion.div
         ref={refBottom}
         className="flex flex-col lg:flex-row gap-10"
@@ -178,20 +169,23 @@ function ProductPage() {
         initial="hidden"
         animate={isInViewBottom ? "visible" : "hidden"}
       >
-        {/* Image unique à gauche */}
+        {/* Description */}
         <div className="lg:w-1/2 flex flex-col justify-center text-xl p-6 text-gray-700 text-md leading-relaxed">
           <h3 className="text-2xl font-bold mb-4">Déscription</h3>
           <hr className="opacity-8 pt-2" />
-          <p>{product.details}</p>
+          <p>{product.description}</p>
         </div>
 
+        {/* Additional image */}
         <div className="lg:w-1/2">
           <div className="rounded-xl overflow-hidden shadow-lg bg-gray-100 p-4 h-full">
-            <img
-              src={product.images[1]}
-              alt="Zoom"
-              className="w-full h-[350px] object-contain"
-            />
+            {product.images[1]?.url && (
+              <img
+                src={product.images[1].url}
+                alt="Zoom"
+                className="w-full h-[350px] object-contain"
+              />
+            )}
           </div>
         </div>
       </motion.div>
