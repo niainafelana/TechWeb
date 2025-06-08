@@ -1,18 +1,20 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchProducts } from "../store/productsSlice";
 import nikesbvert from "../assets/image/nike.png";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import rectangle1 from "../assets/image/Rectangle1.png";
 import ProductCard from "../components/ProductCard";
 
 export default function MainContent() {
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { items: products, status, error } = useSelector((state) => state.products);
   const scrollRef = useRef(null);
 
-  // Simuler un chargement (ex: fetch API)
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const scroll = (offset) => {
     if (scrollRef.current) {
@@ -20,34 +22,11 @@ export default function MainContent() {
     }
   };
 
-  const products = [
-    {
-      image: rectangle1,
-      brand: "Off-White",
-      description: 'Out Of Office "Ooo" sneakers',
-      price: "$775",
-    },
-    {
-      image: rectangle1,
-      brand: "Nike",
-      description: "Air Force 1 Low",
-      price: "$120",
-    },
-    {
-      image: rectangle1,
-      brand: "Adidas",
-      description: "Yeezy Boost 350",
-      price: "$220",
-    },
-    {
-      image: rectangle1,
-      brand: "Puma",
-      description: "RS-X3 Puzzle",
-      price: "$95",
-    },
-  ];
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
 
-  if (loading) {
+  if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen bg-white">
         <div className="flex space-x-2">
@@ -65,24 +44,23 @@ export default function MainContent() {
             display: inline-block;
             animation: bounce 1.4s infinite ease-in-out;
           }
-          .delay-0 {
-            animation-delay: 0s;
-          }
-          .delay-1 {
-            animation-delay: 0.2s;
-          }
-          .delay-2 {
-            animation-delay: 0.4s;
-          }
+          .delay-0 { animation-delay: 0s; }
+          .delay-1 { animation-delay: 0.2s; }
+          .delay-2 { animation-delay: 0.4s; }
+
           @keyframes bounce {
-            0%, 80%, 100% {
-              transform: translateY(0);
-            }
-            40% {
-              transform: translateY(-20px);
-            }
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
           }
         `}</style>
+      </div>
+    );
+  }
+
+  if (status === "failed") {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-white">
+        <p className="text-red-500 text-xl">Error: {error}</p>
       </div>
     );
   }
@@ -127,20 +105,24 @@ export default function MainContent() {
             Explore our latest drops
           </h1>
 
-          {/* Carousel mobile */}
+          {/* Carousel - mobile */}
           <div className="relative block md:hidden">
-            <div className="flex overflow-hidden gap-4" ref={scrollRef}>
+            <div className="flex overflow-x-auto gap-4 scroll-smooth" ref={scrollRef}>
               {products.map((product, index) => (
-                <ProductCard
-                  key={index}
-                  {...product}
-                  className="min-w-[240px] flex-shrink-0 animate-fadeIn"
-                  style={{ animationDelay: `${1400 + index * 100}ms` }}
-                />
+                <div 
+                  key={product.id}
+                  onClick={() => handleProductClick(product.id)}
+                  className="cursor-pointer min-w-[240px] flex-shrink-0"
+                >
+                  <ProductCard
+                    {...product}
+                    className="animate-fadeIn"
+                    style={{ animationDelay: `${1400 + index * 100}ms` }}
+                  />
+                </div>
               ))}
             </div>
 
-            {/* Carousel buttons */}
             <div className="flex justify-between mt-4 px-4">
               <button
                 onClick={() => scroll(-300)}
@@ -157,15 +139,20 @@ export default function MainContent() {
             </div>
           </div>
 
-          {/* Grid desktop */}
+          {/* Grid - desktop */}
           <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-4">
             {products.map((product, index) => (
-              <ProductCard
-                key={index}
-                {...product}
-                className="h-[350px] animate-fadeIn"
-                style={{ animationDelay: `${1400 + index * 100}ms` }}
-              />
+              <div
+                key={product.ID}
+                onClick={() => handleProductClick(product.ID)}
+                className="cursor-pointer"
+              >
+                <ProductCard
+                  {...product}
+                  className="h-[350px] animate-fadeIn"
+                  style={{ animationDelay: `${1400 + index * 100}ms` }}
+                />
+              </div>
             ))}
           </div>
         </div>
