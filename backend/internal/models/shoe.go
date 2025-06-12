@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // models/shoe.go
 package models
 
