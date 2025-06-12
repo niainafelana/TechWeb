@@ -1,71 +1,65 @@
 basePath: /api
 definitions:
-  backend_internal_models.Shoe:
+  models.Shoe:
     description: Shoe product information
     properties:
       created_at:
+        example: "2023-06-01T15:04:05Z"
         type: string
-      deleted_at:
-        $ref: '#/definitions/gorm.DeletedAt'
       description:
         description: |-
-          Description of the shoe
-          @Example: Classic sneaker with air cushioning
+          Description du produit
+          Exemple: Classic sneaker with air cushioning
+        example: Classic sneaker with air cushioning
         type: string
       id:
         type: integer
       images:
-        description: Images associated with the shoe
+        description: Images associées à la chaussure
         items:
-          $ref: '#/definitions/backend_internal_models.ShoeImage'
+          $ref: '#/definitions/models.ShoeImage'
         type: array
       marque:
         description: |-
-          Marque of the shoe
-          @Example: Nike
+          Marque de la chaussure
+          Exemple: Nike
+        example: Nike
         type: string
       name:
         description: |-
-          Name of the shoe model
-          @Example: Air Max 90
+          Nom du modèle
+          Exemple: Air Max 90
+        example: Air Max 90
         type: string
       price:
         description: |-
-          Price of the shoe
-          @Example: 120.99
+          Prix
+          Exemple: 120.99
+        example: 120.99
         type: number
       updated_at:
+        example: "2023-06-01T15:04:05Z"
         type: string
     type: object
-  backend_internal_models.ShoeImage:
-    description: Image associated with a shoe product
+  models.ShoeImage:
+    description: Image associée à un produit chaussure
     properties:
       created_at:
+        example: "2023-06-01T15:04:05Z"
         type: string
-      deleted_at:
-        $ref: '#/definitions/gorm.DeletedAt'
       id:
         type: integer
       shoe_id:
-        description: |-
-          ID of the associated shoe
-          @Example: 1
+        description: ID de la chaussure associée
+        example: 1
         type: integer
       updated_at:
+        example: "2023-06-01T15:04:05Z"
         type: string
       url:
-        description: |-
-          URL of the image
-          @Example: https://example.com/shoe.jpg
+        description: URL de l'image
+        example: https://example.com/shoe.jpg
         type: string
-    type: object
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
     type: object
 host: localhost:8080
 info:
@@ -84,23 +78,23 @@ paths:
     get:
       consumes:
       - application/json
-      description: Obtenir la liste de toutes les chaussures
+      description: Obtenir la liste complète des chaussures disponibles
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Liste des chaussures
           schema:
             items:
-              $ref: '#/definitions/backend_internal_models.Shoe'
+              $ref: '#/definitions/models.Shoe'
             type: array
         "500":
-          description: Internal Server Error
+          description: Erreur serveur
           schema:
-            additionalProperties:
-              type: string
             type: object
       summary: Récupère toutes les chaussures
       tags:
-      - shoes
+      - Shoes
+schemes:
+- http
 swagger: "2.0"

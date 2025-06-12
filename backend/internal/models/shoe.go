@@ -1,53 +1,55 @@
-// models/shoe.go
 package models
 
-import ("gorm.io/gorm"
-"time")
+import (
+	"time"
 
-// gorm.Model definition for Swagger
-// @name gorm.Model
-type Model struct {
-    ID        uint           `gorm:"primaryKey" json:"id"`
-    CreatedAt time.Time      `json:"created_at"`
-    UpdatedAt time.Time      `json:"updated_at"`
-    DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
+	"gorm.io/gorm"
+)
+
+// BaseModel définit les champs communs (remplace gorm.Model)
+// @name BaseModel
+type BaseModel struct {
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	CreatedAt time.Time      `json:"created_at" example:"2023-06-01T15:04:05Z"`
+	UpdatedAt time.Time      `json:"updated_at" example:"2023-06-01T15:04:05Z"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty" swaggerignore:"true"` // Swagger l'ignore
 }
 
-// Shoe represents a shoe product
-// @Description Shoe product information
+// Shoe représente un produit chaussure
+// @name Shoe
+// @description Shoe product information
 type Shoe struct {
-    Model // Embed our custom Model instead of gorm.Model
-    
-    // Marque of the shoe
-    // @Example: Nike
-    Marque      string      `json:"marque"`
-    
-    // Name of the shoe model
-    // @Example: Air Max 90
-    Name        string      `json:"name"`
-    
-    // Price of the shoe
-    // @Example: 120.99
-    Price       float64     `json:"price"`
-    
-    // Description of the shoe
-    // @Example: Classic sneaker with air cushioning
-    Description string      `json:"description"`
-    
-    // Images associated with the shoe
-    Images      []ShoeImage `json:"images" gorm:"foreignKey:ShoeID"`
+	BaseModel
+
+	// Marque de la chaussure
+	// Exemple: Nike
+	Marque string `json:"marque" example:"Nike"`
+
+	// Nom du modèle
+	// Exemple: Air Max 90
+	Name string `json:"name" example:"Air Max 90"`
+
+	// Prix
+	// Exemple: 120.99
+	Price float64 `json:"price" example:"120.99"`
+
+	// Description du produit
+	// Exemple: Classic sneaker with air cushioning
+	Description string `json:"description" example:"Classic sneaker with air cushioning"`
+
+	// Images associées à la chaussure
+	Images []ShoeImage `json:"images" gorm:"foreignKey:ShoeID"`
 }
 
-// ShoeImage represents an image of a shoe
-// @Description Image associated with a shoe product
+// ShoeImage représente une image de chaussure
+// @name ShoeImage
+// @description Image associée à un produit chaussure
 type ShoeImage struct {
-    Model // Embed our custom Model
-    
-    // ID of the associated shoe
-    // @Example: 1
-    ShoeID uint   `json:"shoe_id"`
-    
-    // URL of the image
-    // @Example: https://example.com/shoe.jpg
-    URL    string `json:"url"`
+	BaseModel
+
+	// ID de la chaussure associée
+	ShoeID uint `json:"shoe_id" example:"1"`
+
+	// URL de l'image
+	URL string `json:"url" example:"https://example.com/shoe.jpg"`
 }

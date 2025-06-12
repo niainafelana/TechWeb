@@ -1,4 +1,7 @@
 {
+    "schemes": [
+        "http"
+    ],
     "swagger": "2.0",
     "info": {
         "description": "API pour l'application SUN CO.",
@@ -19,7 +22,7 @@
     "paths": {
         "/api/shoes": {
             "get": {
-                "description": "Obtenir la liste de toutes les chaussures",
+                "description": "Obtenir la liste complète des chaussures disponibles",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,26 +30,23 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shoes"
+                    "Shoes"
                 ],
                 "summary": "Récupère toutes les chaussures",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Liste des chaussures",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/backend_internal_models.Shoe"
+                                "$ref": "#/definitions/models.Shoe"
                             }
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Erreur serveur",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "type": "object"
                         }
                     }
                 }
@@ -54,82 +54,74 @@
         }
     },
     "definitions": {
-        "backend_internal_models.Shoe": {
+        "models.Shoe": {
             "description": "Shoe product information",
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
-                },
-                "deleted_at": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                    "type": "string",
+                    "example": "2023-06-01T15:04:05Z"
                 },
                 "description": {
-                    "description": "Description of the shoe\n@Example: Classic sneaker with air cushioning",
-                    "type": "string"
+                    "description": "Description du produit\nExemple: Classic sneaker with air cushioning",
+                    "type": "string",
+                    "example": "Classic sneaker with air cushioning"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "images": {
-                    "description": "Images associated with the shoe",
+                    "description": "Images associées à la chaussure",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/backend_internal_models.ShoeImage"
+                        "$ref": "#/definitions/models.ShoeImage"
                     }
                 },
                 "marque": {
-                    "description": "Marque of the shoe\n@Example: Nike",
-                    "type": "string"
+                    "description": "Marque de la chaussure\nExemple: Nike",
+                    "type": "string",
+                    "example": "Nike"
                 },
                 "name": {
-                    "description": "Name of the shoe model\n@Example: Air Max 90",
-                    "type": "string"
+                    "description": "Nom du modèle\nExemple: Air Max 90",
+                    "type": "string",
+                    "example": "Air Max 90"
                 },
                 "price": {
-                    "description": "Price of the shoe\n@Example: 120.99",
-                    "type": "number"
+                    "description": "Prix\nExemple: 120.99",
+                    "type": "number",
+                    "example": 120.99
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-06-01T15:04:05Z"
                 }
             }
         },
-        "backend_internal_models.ShoeImage": {
-            "description": "Image associated with a shoe product",
+        "models.ShoeImage": {
+            "description": "Image associée à un produit chaussure",
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
-                },
-                "deleted_at": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                    "type": "string",
+                    "example": "2023-06-01T15:04:05Z"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "shoe_id": {
-                    "description": "ID of the associated shoe\n@Example: 1",
-                    "type": "integer"
+                    "description": "ID de la chaussure associée",
+                    "type": "integer",
+                    "example": 1
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2023-06-01T15:04:05Z"
                 },
                 "url": {
-                    "description": "URL of the image\n@Example: https://example.com/shoe.jpg",
-                    "type": "string"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
+                    "description": "URL de l'image",
+                    "type": "string",
+                    "example": "https://example.com/shoe.jpg"
                 }
             }
         }
