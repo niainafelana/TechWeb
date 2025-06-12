@@ -48,4 +48,9 @@ require (
 	gorm.io/gorm v1.30.0 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 
+	github.com/gofiber/fiber/v2 v2.52.8
+	github.com/joho/godotenv v1.5.1
+	gorm.io/driver/mysql v1.5.7
+	gorm.io/gorm v1.30.0
 )
+

@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+<<<<<<< HEAD
 	"github.com/gofiber/swagger"
 )
 
@@ -20,6 +21,10 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:8080
 // @BasePath /api
+=======
+)
+
+>>>>>>> e18ffe63ae61062705b4a460f6b266a5876d3535
 func main() {
 	app := fiber.New()
 
@@ -33,8 +38,11 @@ func main() {
 
 	// Serveur de fichiers statiques pour les images
 	app.Static("/images", "./public/images")
+<<<<<<< HEAD
 	// Route Swagger
 	app.Get("/swagger/*", swagger.HandlerDefault)
+=======
+>>>>>>> e18ffe63ae61062705b4a460f6b266a5876d3535
 
 	// Connexion à la base de données
 	db, err := database.ConnectDB()

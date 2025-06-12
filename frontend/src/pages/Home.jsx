@@ -137,6 +137,24 @@ export default function MainContent() {
                 <ChevronRight size={24} />
               </button>
             </div>
+
+          </div>
+
+          {/* Grid - desktop */}
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {products.map((product, index) => (
+              <div
+                key={product.ID}
+                onClick={() => handleProductClick(product.ID)}
+                className="cursor-pointer"
+              >
+                <ProductCard
+                  {...product}
+                  className="h-[350px] animate-fadeIn"
+                  style={{ animationDelay: `${1400 + index * 100}ms` }}
+                />
+              </div>
+            ))}
           </div>
 
           {/* Grid - desktop */}
