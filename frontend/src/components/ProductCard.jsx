@@ -8,7 +8,6 @@ export default function ProductCard({ image, brand, description, price, classNam
         <img
           src={image}
           alt="sary"
-          className="object-contain w-full h-full"
         />
       </div>
       <div>
