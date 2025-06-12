@@ -7,8 +7,19 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/swagger"
 )
 
+// @title SUN CO. API
+// @version 1.0
+// @description API pour l'application SUN CO.
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email noums@hacker.com
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8080
+// @BasePath /api
 func main() {
 	app := fiber.New()
 
@@ -22,6 +33,8 @@ func main() {
 
 	// Serveur de fichiers statiques pour les images
 	app.Static("/images", "./public/images")
+	// Route Swagger
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	// Connexion à la base de données
 	db, err := database.ConnectDB()

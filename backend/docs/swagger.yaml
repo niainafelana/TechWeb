@@ -1,0 +1,106 @@
+basePath: /api
+definitions:
+  backend_internal_models.Shoe:
+    description: Shoe product information
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        description: |-
+          Description of the shoe
+          @Example: Classic sneaker with air cushioning
+        type: string
+      id:
+        type: integer
+      images:
+        description: Images associated with the shoe
+        items:
+          $ref: '#/definitions/backend_internal_models.ShoeImage'
+        type: array
+      marque:
+        description: |-
+          Marque of the shoe
+          @Example: Nike
+        type: string
+      name:
+        description: |-
+          Name of the shoe model
+          @Example: Air Max 90
+        type: string
+      price:
+        description: |-
+          Price of the shoe
+          @Example: 120.99
+        type: number
+      updated_at:
+        type: string
+    type: object
+  backend_internal_models.ShoeImage:
+    description: Image associated with a shoe product
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      shoe_id:
+        description: |-
+          ID of the associated shoe
+          @Example: 1
+        type: integer
+      updated_at:
+        type: string
+      url:
+        description: |-
+          URL of the image
+          @Example: https://example.com/shoe.jpg
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: noums@hacker.com
+    name: API Support
+  description: API pour l'application SUN CO.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUN CO. API
+  version: "1.0"
+paths:
+  /api/shoes:
+    get:
+      consumes:
+      - application/json
+      description: Obtenir la liste de toutes les chaussures
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/backend_internal_models.Shoe'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Récupère toutes les chaussures
+      tags:
+      - shoes
+swagger: "2.0"
