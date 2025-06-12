@@ -7,7 +7,7 @@ export default function ProductCard({ image, brand, description, price, classNam
       <div className="h-[200px] bg-gray-50 rounded-[18px] p-2">
         <img
           src={image}
-          alt={brand}
+          alt="sary"
           className="object-contain w-full h-full"
         />
       </div>

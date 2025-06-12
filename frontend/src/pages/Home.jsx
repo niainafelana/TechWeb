@@ -141,19 +141,23 @@ export default function MainContent() {
 
           {/* Grid - desktop */}
           <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {products.map((product, index) => (
-              <div
-                key={product.ID}
-                onClick={() => handleProductClick(product.ID)}
-                className="cursor-pointer"
-              >
-                <ProductCard
-                  {...product}
-                  className="h-[350px] animate-fadeIn"
-                  style={{ animationDelay: `${1400 + index * 100}ms` }}
-                />
-              </div>
-            ))}
+{products.map((product, index) => (
+  <div 
+    key={product.ID}
+    onClick={() => handleProductClick(product.ID)}
+    className="cursor-pointer"
+  >
+    <ProductCard
+      image={product.images?.[0]?.url} // Fallback if needed
+      brand={product.marque} // Assuming your API uses 'marque'
+      description={product.name}
+      price={`$${product.price.toFixed(2)}`}
+      images={product.images} // Pass the full images array
+      className="h-[350px] animate-fadeIn"
+      style={{ animationDelay: `${1400 + index * 100}ms` }}
+    />
+  </div>
+))}
           </div>
         </div>
       </div>
